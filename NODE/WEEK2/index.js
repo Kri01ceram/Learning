@@ -1,6 +1,11 @@
 const express = require("express");
+const path = require("path");
 
 const app = express();
+
+app.get("/",function(req,res){
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
 app.get("/sum/:a/:b",function(req,res){
     const a = parseInt(req.params.a);
