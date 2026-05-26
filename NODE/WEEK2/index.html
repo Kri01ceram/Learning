@@ -4,15 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script>
+        async function calculateSum() {
+            const num1 = parseFloat(document.getElementById('input').value);
+            const num2 = parseFloat(document.getElementById('input2').value);
+            
+            const res = await fetch("http://localhost:3002/sum/" + num1 + "/" + num2);
+            const data = await res.json();
+            document.getElementById('result').innerText = `Sum: ${data.result}`;
+
+        }
+
+        async function calculateDifference() {
+            const num1 = parseFloat(document.getElementById('input').value);
+            const num2 = parseFloat(document.getElementById('input2').value);
+            const res = await fetch("http://localhost:3002/sub/" + num1 + "/" + num2);
+            const data = await res.json();
+            document.getElementById('result').innerText = `Difference: ${data.result}`;
+        }
+
+        async function calculateProduct() {
+            const num1 = parseFloat(document.getElementById('input').value);
+            const num2 = parseFloat(document.getElementById('input2').value);
+            const res = await fetch("http://localhost:3002/multiply/" + num1 + "/" + num2);
+            const data = await res.json();
+            document.getElementById('result').innerText = `Product: ${data.result}`;
+        }
+
+        async function calculateQuotient() {
+            const num1 = parseFloat(document.getElementById('input').value);
+            const num2 = parseFloat(document.getElementById('input2').value);
+            const res = await fetch("http://localhost:3002/div/" + num1 + "/" + num2);
+            const data = await res.json();
+            document.getElementById('result').innerText = `Quotient: ${data.result}`;
+        }
+    </script>
 </head>
 <body>
         <input placeholder="Enter a number" type="text" id="input">
         <input placeholder="Enter another number" type="text" id="input2">
 
-        <button id="sumBtn">Calculate Sum</button>
-        <button id="diffBtn">Calculate Difference</button>
-        <button id="prodBtn">Calculate Product</button>
-        <button id="quotBtn">Calculate Quotient</button>
+        <button id="sumBtn" onclick="calculateSum()">Calculate Sum</button>
+        <button id="diffBtn" onclick="calculateDifference()">Calculate Difference</button>
+        <button id="prodBtn" onclick="calculateProduct()">Calculate Product</button>
+        <button id="quotBtn" onclick="calculateQuotient()">Calculate Quotient</button>
 
         <div id="result"></div>
 </body>
