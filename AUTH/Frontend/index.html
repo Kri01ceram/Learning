@@ -1,14 +1,46 @@
 <html>
-    <body>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
-            <div>
-                  Loading...
-            </div>
-        
-            <div>
-                <input type="text" />
-                <button>Create new note</button>
-            </div>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 20px;">
+        <div id="notes">
+            Loading...
         </div>
-    </body>
+
+        <div>
+            <input type="text" id="noteInput" />
+            <button onclick="createNote()">Create new note</button>
+        </div>
+    </div>
+
+    <script>
+        async function createNote() {
+            const noteContent = document.getElementById('noteInput').value;
+            if (!noteContent.trim()) return;
+            await axios.post('http://localhost:3004/notes', {
+                content: noteContent
+            });
+            document.getElementById('noteInput').value = "";
+            await getNotes();
+        }
+        async function getNotes() {
+            const response = await axios.get('http://localhost:3004/notes');
+            const notesDiv = document.getElementById('notes');
+            notesDiv.innerHTML = "";
+            for (let i = 0; i < response.data.notes.length; i++) {
+                const noteElement = document.createElement('div');
+                noteElement.innerHTML = response.data.notes[i];
+
+                noteElement.style.border = "1px solid black";
+                noteElement.style.padding = "10px";
+                noteElement.style.marginBottom = "10px";
+
+                notesDiv.appendChild(noteElement);
+            }
+        }
+
+        getNotes();
+    </script>
+</body>
 </html>
