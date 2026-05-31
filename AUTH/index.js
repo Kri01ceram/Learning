@@ -12,5 +12,8 @@ app.post("/notes", (req, res) => {
 app.get("/notes", (req, res) => {
     res.json({ notes });
 });
+app.get("/",(req,res)=>{
+    res.sendFile(path.join(__dirname, "index.html"));
+});
 
 app.listen(3000);
