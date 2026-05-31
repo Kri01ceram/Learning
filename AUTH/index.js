@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 
 const app = express();
 const notes = [];
@@ -13,7 +14,7 @@ app.get("/notes", (req, res) => {
     res.json({ notes });
 });
 app.get("/",(req,res)=>{
-    res.sendFile(path.join(__dirname, "index.html"));
+    res.sendFile(path.join(__dirname, "Frontend", "index.html"));
 });
 
-app.listen(3000);
+app.listen(3004);
