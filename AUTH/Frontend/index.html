@@ -1,46 +1,58 @@
 <html>
-<head>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-</head>
-<body>
-    <div style="display: flex; justify-content: space-between; padding: 20px;">
-        <div id="notes">
-            Loading...
+    <head>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    </head>
+    <body>
+        <div style="display: flex; justify-content: space-between; padding: 0px 100px;">
+            <div id="notes">
+                Loading...
+            </div>
+
+            <div>
+                <input type="text" id="userNote" />
+                <button onclick="addTodo()">Create new note</button>
+            </div>
         </div>
+        <script>
+            async function addTodo() {
+                await axios.post("http://localhost:3000/notes", {
+                    note: document.getElementById("userNote").value
+                }, {
+                    headers: {
+                        token: localStorage.getItem("token")
+                    }
+                })
 
-        <div>
-            <input type="text" id="noteInput" />
-            <button onclick="createNote()">Create new note</button>
-        </div>
-    </div>
+                // show the todo in the frontend
+                const newNode = document.createElement("div");
 
-    <script>
-        async function createNote() {
-            const noteContent = document.getElementById('noteInput').value;
-            if (!noteContent.trim()) return;
-            await axios.post('http://localhost:3004/notes', {
-                content: noteContent
-            });
-            document.getElementById('noteInput').value = "";
-            await getNotes();
-        }
-        async function getNotes() {
-            const response = await axios.get('http://localhost:3004/notes');
-            const notesDiv = document.getElementById('notes');
-            notesDiv.innerHTML = "";
-            for (let i = 0; i < response.data.notes.length; i++) {
-                const noteElement = document.createElement('div');
-                noteElement.innerHTML = response.data.notes[i];
-
-                noteElement.style.border = "1px solid black";
-                noteElement.style.padding = "10px";
-                noteElement.style.marginBottom = "10px";
-
-                notesDiv.appendChild(noteElement);
+                newNode.innerHTML = document.getElementById("userNote").value;
+                newNode.setAttribute("style", "border: 2px solid black; padding: 10px;")
+                document.getElementById("notes").appendChild(newNode);
+                
+                // make the input box empty again
+                document.getElementById("userNote").value = "";
             }
-        }
 
-        getNotes();
-    </script>
-</body>
+            async function getTodos() {
+                const response = await axios.get("http://localhost:3000/notes", {
+                    headers: {
+                        token: localStorage.getItem("token")
+                    }
+                });
+                const notes = response.data.notes;
+
+                document.getElementById("notes").innerHTML = "";
+
+                for (let i = 0; i < notes.length; i++) {
+                    const noteNote = document.createElement("div");
+                    noteNote.innerHTML = notes[i].note;
+                    noteNote.setAttribute("style", "border: 2px solid black; padding: 10px;")
+                    document.getElementById("notes").appendChild(noteNote);
+                }
+            }
+
+            getTodos();
+        </script>
+    </body>
 </html>
