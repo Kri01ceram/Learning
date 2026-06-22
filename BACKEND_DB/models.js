@@ -1,21 +1,22 @@
-const mongoose = require('mongoose');
-// mongoose schema and modle oibject
+const mongoose = require("mongoose");
 
-const userSchema  = new mongoose.Schema({
+mongoose.connect("mongodb+srv://gptgo0107_db_user:3MSXYErAuBssb@cluster0.cy5dezp.mongodb.net/todo");
+
+const UserSchema = new mongoose.Schema({
     username: String,
     password: String
 });
 
-const todoSchema = new mongoose.Schema({
+const TodoSchema = new mongoose.Schema({
     title: String,
     description: String,
     userId: mongoose.Types.ObjectId
 });
 
-const userModel = mongoose.model("User", userSchema);
-const todoModel = mongoose.model("Todo", todoSchema);
+const userModel = mongoose.model("users", UserSchema);
+const todoModel = mongoose.model("todos", TodoSchema);
 
 module.exports = {
-    userModel : userModel,
-    todoModel : todoModel
+    userModel: userModel,
+    todoModel: todoModel
 }
