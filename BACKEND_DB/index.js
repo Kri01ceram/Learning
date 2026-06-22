@@ -7,7 +7,18 @@ const app = express();
 app.use(express.json());
 
 
-app.post("/signup", (req, res) => {
+app.post("/signup",async (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    const existing = await userModel.findOne({username: username, password: password});
+    if(existing){
+        res.status(400).json({message: "User already exists"});
+        return
+    }
+    const newuser = await userModel.create({username: username, password: password});
+    res.status(200).json({message: "User created successfully"});
+
 })
 app.post("/signin", (req, res) => {
 })
