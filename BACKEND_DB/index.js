@@ -1,10 +1,11 @@
 const express = require('express');
 const { authMiddleware } = require('./middleware');
 const jwt = require('jsonwebtoken');
-
-app.use(express.json());
+const { userModel, todoModel } = require('./models');
 
 const app = express();
+app.use(express.json());
+
 
 app.post("/signup", (req, res) => {
 })
