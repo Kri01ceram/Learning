@@ -1,6 +1,14 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb+srv://gptgo0107_db_user:3MSXYErAuBssb@cluster0.cy5dezp.mongodb.net/todo");
+const mongoUri = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/todo";
+
+mongoose.connect(mongoUri, {
+    serverSelectionTimeoutMS: 5000
+}).then(() => {
+    console.log("Connected to MongoDB");
+}).catch((error) => {
+    console.error("MongoDB connection failed:", error.message);
+});
 
 const UserSchema = new mongoose.Schema({
     username: String,
