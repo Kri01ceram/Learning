@@ -8,10 +8,9 @@ app.use(express.json());
 
 app.post("/signup",async (req,res)=>{
     const username = req.body.username;
-    const emoll = req.body.emoll;
+    const email = req.body.email;
     const password = req.body.password;
-
-    await pool.query('INSERT INTO users (username, emoll, password) VALUES ($1, $2, $3)', [username, emoll, password]);
+    await pool.query('INSERT INTO users (username, emoll, password) VALUES ($1, $2, $3)', [username, email, password]);
     res.json({message: "User created successfully"});
 
 })
