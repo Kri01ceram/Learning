@@ -10,11 +10,17 @@ app.post("/signup",async (req,res)=>{
     const username = req.body.username;
     const email = req.body.email;
     const password = req.body.password;
-    await pool.query('INSERT INTO users (username, emoll, password) VALUES ($1, $2, $3)', [username, email, password]);
-    res.json({message: "User created successfully"});
-
+    const result = await pool.query('INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id', [username, email, password]);
+    res.json({message: "User created successfully", userId: result.rows[0].id});
 })
-app.post("/signin",(req,res)=>{
-
+app.post("/signin",async (req,res)=>{
+    const email = req.body.email;
+    const password = req.body.password;
+    const result = await pool.query('SELECT id FROM users WHERE email = $1 AND password = $2', [email, password]);
+    if (result.rows.length > 0) {
+        res.json({message: "Signin successful", userId: result.rows[0].id});
+    } else {
+        res.status(401).json({message: "Invalid credentials"});
+    }
 })
 app.listen(3000);
