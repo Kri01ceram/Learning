@@ -6,8 +6,14 @@ const pool = new Pool({
 const app = express();
 app.use(express.json());
 
-app.post("/signup",(req,res)=>{
-    
+app.post("/signup",async (req,res)=>{
+    const username = req.body.username;
+    const emoll = req.body.emoll;
+    const password = req.body.password;
+
+    await pool.query('INSERT INTO users (username, emoll, password) VALUES ($1, $2, $3)', [username, emoll, password]);
+    res.json({message: "User created successfully"});
+
 })
 app.post("/signin",(req,res)=>{
 
