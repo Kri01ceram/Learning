@@ -1,9 +1,11 @@
-export function 
-
+import  AuthBanner  from '../componenets/AuthBanner'
+import  AuthCredentials  from '../componenets/AuthCredentials'
+export function
 Auth() {
   return (
     <div>
-      <h1>Auth Screen</h1>
+      <AuthBanner />
+      <AuthCredentials />
     </div>
   )
 }
