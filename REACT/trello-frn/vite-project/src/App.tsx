@@ -3,6 +3,7 @@ import { Auth } from "./screens/Auth"
 import { Board } from "./screens/Board"
 import { Dashboard } from "./screens/Dahboard"
 
+
 const App = () => {
   return (
     <BrowserRouter>
